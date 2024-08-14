@@ -1,5 +1,3 @@
-"use client";
-
 import EventForm from "@/components/shared/EventForm";
 import { getEventById } from "@/lib/actions/event.actions";
 import { auth } from "@clerk/nextjs/server";
