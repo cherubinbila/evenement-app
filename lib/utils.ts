@@ -2,6 +2,12 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
 import { RemoveUrlQueryParams, UrlQueryParams } from "@/types";
+import {
+	generateUploadButton,
+	generateUploadDropzone,
+} from "@uploadthing/react";
+
+import type { OurFileRouter } from "@/app/api/uploadthing/core";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -101,3 +107,6 @@ export const handleError = (error: unknown) => {
 	console.error(error);
 	throw new Error(typeof error === "string" ? error : JSON.stringify(error));
 };
+
+export const UploadButton = generateUploadButton<OurFileRouter>();
+export const UploadDropzone = generateUploadDropzone<OurFileRouter>();
