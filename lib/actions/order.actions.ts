@@ -9,7 +9,7 @@ import {
 } from "@/types";
 import { redirect } from "next/navigation";
 import { handleError } from "../utils";
-import { connectToDatabase } from "../database";
+import { connect } from "../database";
 import Order from "../database/models/order.model";
 import Event from "../database/models/event.model";
 import { ObjectId } from "mongodb";
@@ -51,7 +51,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 
 export const createOrder = async (order: CreateOrderParams) => {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const newOrder = await Order.create({
 			...order,
@@ -71,7 +71,7 @@ export async function getOrdersByEvent({
 	eventId,
 }: GetOrdersByEventParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		if (!eventId) throw new Error("Event ID is required");
 		const eventObjectId = new ObjectId(eventId);
@@ -134,7 +134,7 @@ export async function getOrdersByUser({
 	page,
 }: GetOrdersByUserParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const skipAmount = (Number(page) - 1) * limit;
 		const conditions = { buyer: userId };

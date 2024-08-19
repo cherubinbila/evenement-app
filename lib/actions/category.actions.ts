@@ -2,14 +2,14 @@
 
 import { CreateCategoryParams } from "@/types";
 import { handleError } from "../utils";
-import { connectToDatabase } from "../database";
+import { connect } from "../database";
 import Category from "../database/models/category.model";
 
 export const createCategory = async ({
 	categoryName,
 }: CreateCategoryParams) => {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const newCategory = await Category.create({ name: categoryName });
 
@@ -21,7 +21,7 @@ export const createCategory = async ({
 
 export const getAllCategories = async () => {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const categories = await Category.find();
 

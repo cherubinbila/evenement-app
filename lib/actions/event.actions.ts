@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { connectToDatabase } from "@/lib/database";
+import { connect } from "@/lib/database";
 import Event from "@/lib/database/models/event.model";
 import User from "@/lib/database/models/user.model";
 import Category from "@/lib/database/models/category.model";
@@ -34,7 +34,7 @@ const populateEvent = (query: any) => {
 // CREATE
 export async function createEvent({ userId, event, path }: CreateEventParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const organizer = await User.findById(userId);
 		if (!organizer) throw new Error("Organizer not found");
@@ -55,7 +55,7 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
 // GET ONE EVENT BY ID
 export async function getEventById(eventId: string) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const event = await populateEvent(Event.findById(eventId));
 
@@ -70,7 +70,7 @@ export async function getEventById(eventId: string) {
 // UPDATE
 export async function updateEvent({ userId, event, path }: UpdateEventParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const eventToUpdate = await Event.findById(event._id);
 		if (
@@ -96,7 +96,7 @@ export async function updateEvent({ userId, event, path }: UpdateEventParams) {
 // DELETE
 export async function deleteEvent({ eventId, path }: DeleteEventParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const deletedEvent = await Event.findByIdAndDelete(eventId);
 		if (deletedEvent) revalidatePath(path);
@@ -113,7 +113,7 @@ export async function getAllEvents({
 	category,
 }: GetAllEventsParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const titleCondition = query
 			? { title: { $regex: query, $options: "i" } }
@@ -153,7 +153,7 @@ export async function getEventsByUser({
 	page,
 }: GetEventsByUserParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const conditions = { organizer: userId };
 		const skipAmount = (page - 1) * limit;
@@ -183,7 +183,7 @@ export async function getRelatedEventsByCategory({
 	page = 1,
 }: GetRelatedEventsByCategoryParams) {
 	try {
-		await connectToDatabase();
+		await connect();
 
 		const skipAmount = (Number(page) - 1) * limit;
 		const conditions = {
