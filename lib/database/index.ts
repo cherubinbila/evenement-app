@@ -1,6 +1,6 @@
 import mongoose, { Mongoose } from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI!;
 
 interface MongooseConn {
 	conn: Mongoose | null;
@@ -19,12 +19,10 @@ if (!cached) {
 export const connect = async () => {
 	if (cached.conn) return cached.conn;
 
-	if (!MONGODB_URI) throw new Error("MONGODB_URI is missing");
-
 	cached.promise =
 		cached.promise ||
 		mongoose.connect(MONGODB_URI, {
-			dbName: "Evenement-app",
+			dbName: "clerkauthv5",
 			bufferCommands: false,
 			connectTimeoutMS: 30000,
 		});

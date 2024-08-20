@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 	}
 
 	// Get the ID and type
-
+	const { id } = evt.data;
 	const eventType = evt.type;
 
 	if (eventType === "user.created") {
@@ -68,11 +68,13 @@ export async function POST(req: Request) {
 		const user = {
 			clerkId: id,
 			email: email_addresses[0].email_address,
-			username: username,
+			username: username!,
+			photo: image_url!,
 			firstName: first_name,
 			lastName: last_name,
-			photo: image_url,
 		};
+
+		console.log(user);
 
 		const newUser = await createUser(user);
 
@@ -84,7 +86,10 @@ export async function POST(req: Request) {
 			});
 		}
 
-		return NextResponse.json({ message: "OK", user: newUser });
+		return NextResponse.json({
+			message: "New user created",
+			user: newUser,
+		});
 	}
 
 	if (eventType === "user.updated") {
