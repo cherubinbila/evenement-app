@@ -3,7 +3,7 @@ export type CreateUserParams = {
 	clerkId: string;
 	firstName: string | null;
 	lastName: string | null;
-	username: string;
+	username: string | null;
 	email: string;
 	photo: string;
 };
@@ -11,7 +11,7 @@ export type CreateUserParams = {
 export type UpdateUserParams = {
 	firstName: string | null;
 	lastName: string | null;
-	username: string;
+	username: string | null;
 	photo: string;
 };
 
